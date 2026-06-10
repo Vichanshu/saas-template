@@ -1,7 +1,18 @@
 "use client"
 
-import { AuthenticateWithRedirectCallback } from "@clerk/nextjs"
+import { HandleSSOCallback } from "@clerk/react"
+import { useRouter } from "next/navigation"
 
 export default function SSOCallbackPage() {
-  return <AuthenticateWithRedirectCallback />
+  const router = useRouter()
+
+  return (
+    <HandleSSOCallback
+      navigateToApp={({ decorateUrl }) => {
+        router.push(decorateUrl("/dashboard"))
+      }}
+      navigateToSignIn={() => router.push("/signin")}
+      navigateToSignUp={() => router.push("/signup")}
+    />
+  )
 }
